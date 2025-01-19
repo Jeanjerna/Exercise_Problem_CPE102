@@ -71,6 +71,8 @@ int main()
     grade('F');
     grade('X');
 
+    cout << "\n--------------------------------------\n\n";
+
     cout << tommy(30 , 30) << endl;
     cout << tommy(30 , 70) << endl;
     cout << tommy(60 , 30) << endl;
@@ -78,5 +80,9 @@ int main()
     cout << tommy(90 , 30) << endl;
     cout << tommy(90 , 70) << endl;
 
+    cout << "\n--------------------------------------\n\n";
+
     start();
+
+    cout << "\n\n--------------------------------------\n\n";
 }

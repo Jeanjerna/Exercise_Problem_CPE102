@@ -26,6 +26,7 @@ int main()
 
     return 0;
 }
+
 //write function insert() here
 
 template <class Type>
@@ -41,14 +42,14 @@ void insert(const Type x[], Type y[], int N, Type data, int dir)
 
     for (int j = dir+1 ; j < N+1 ; j++)
     {
-        y[j] = x[i]; //ที่ตรงนี้ใช้เป็น i เฉยๆ เพราะจาก for ครั้งก่อนจะมีการบวก i ไปอีก 1 ก่อนจะจบ loop ทำให้ล่าสุด i มีค่าเท่ากับ dir
+        y[j] = x[i]; //ที่ตรงนี้ใช้เป็น i เฉยๆ เพราะจาก for ครั้งก่อนจะมีการบวก i ไปอีก +1 ก่อนจะจบ loop ทำให้ล่าสุด i มีค่าเท่ากับ dir
         i++;
     }
 
-    /*
+    /* // แบบที่ 2 //
     for (int j = dir+1 ; j < N+1 ; j++)
     {
-        y[j] = x[j-1]; // แบบที่ 2 //
+        y[j] = x[j-1]; 
     }
     */
 }

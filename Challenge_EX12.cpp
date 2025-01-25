@@ -4,23 +4,15 @@
 #include <iomanip>
 using namespace std;
 
-//----------------Gobal variable-------------------//
-
-// int Main_matrix_size , Main_matrix_sum_size ;
-
-//_________________________________________________//
-
-
 //----------------------------Function Prototype----------------------------//
 
 void matrix_change_element(double source_matrix[] , int row , int column , double number , int source_matrix_size);
 double matrix_access(double source_matrix[] , int row , int column, int source_matrix_size);
 void user_create_A_Matrix(double source_matrix[] , int source_matrix_size);
 void show_matrix(double source_matrix[], int source_matrix_size);
-// int resize_SourceMatrix(double source_matrix[] , int delete_row , int delete_column, int source_matrix_size);
 void resize_SourceMatrix_to_NewMatrix(double source_matrix[] , int delete_row , int delete_column , int source_matrix_size , double new_matrix[]);
 
-double DET_FUNCTION(double source_matrix[] ,long int source_matrix_size,long int i);
+double DET_FUNCTION(double source_matrix[] ,int source_matrix_size, int k);
 
 //__________________________________________________________________________//
 
@@ -29,18 +21,12 @@ double DET_FUNCTION(double source_matrix[] ,long int source_matrix_size,long int
 int main()
 {
     int Main_matrix_size , Main_matrix_sum_size;
-    cout << "Please input matrix size : "; // +++ เอา comment ออกตอนจะใช้งานจริง
-    cin >> Main_matrix_size; // +++ เอา comment ออกตอนจะใช้งานจริง
+    cout << "Please input matrix size : ";
+    cin >> Main_matrix_size;
     Main_matrix_sum_size = Main_matrix_size * Main_matrix_size;
 
-    double A[Main_matrix_sum_size]; // +++ เอา comment ออกตอนจะใช้งานจริง
-    user_create_A_Matrix(A , Main_matrix_size); // +++ เอา comment ออกตอนจะใช้งานจริง
-
-    show_matrix(A , Main_matrix_size);
-
-    cout << "Determinant of your matrix is " << DET_FUNCTION(A , Main_matrix_size , 0);
-
-
+    double A[Main_matrix_sum_size];
+    user_create_A_Matrix(A , Main_matrix_size); 
 
     //------------------------------TEST------------------------------//
 
@@ -48,21 +34,28 @@ int main()
     // Main_matrix_sum_size = Main_matrix_size * Main_matrix_size;
     // double A[Main_matrix_sum_size] = {1,0,5,-1,4,7,1.2,0,4.5};
 
-    // Main_matrix_size = 4;
+    // Main_matrix_size = 5;
     // Main_matrix_sum_size = Main_matrix_size * Main_matrix_size;
-    // double A[Main_matrix_sum_size] = {1,2,3,4,1,2,3,4,1,2,3,4,1,2,3,4};
+    // double A[Main_matrix_sum_size] = { 1.1 ,2.2 ,3.3 ,0 ,7.5 , 4 ,2 ,0 ,0 ,1 , 12 ,-6.9 ,4.3 ,0 ,2.1 , -1 ,-2 ,-3 ,-4 ,-5 , 7 ,7 ,7 ,6 ,9};
 
     // Main_matrix_size = 10;
     // Main_matrix_sum_size = Main_matrix_size * Main_matrix_size;
-    // double A[Main_matrix_sum_size] = {1,0,5,-1,4,7,1.2,0,4.5};
-
-    // show_matrix(A , Main_matrix_size);
-
-    // cout << "Determinant of your matrix is " << DET_FUNCTION(A , Main_matrix_size , 0);
+    // double A[Main_matrix_sum_size]={1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+    //                                 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 
+    //                                 1, 2, 3, 0, 0, 0, 0, 0, 0, 0, 
+    //                                 0, 0, 0, 0.5, 0, 0, 0, 0, 0, 0, 
+    //                                 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 
+    //                                 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 
+    //                                 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 
+    //                                 0, 0, 0, 0, 0, 0, 0, 10, 0, 0, 
+    //                                 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 
+    //                                 0, 0, 0, 0, 0, 0, 0, -1, -1, -1};
 
     //------------------------------TEST------------------------------//
 
-    
+    show_matrix(A , Main_matrix_size);
+
+    cout << "Determinant of your matrix is " << DET_FUNCTION(A , Main_matrix_size, 0);
 }
 
 //__________________________________________________________________________//
@@ -126,36 +119,11 @@ void show_matrix(double source_matrix[] , int source_matrix_size)
 
 //============================================================================//
 
-// int resize_SourceMatrix(double source_matrix[] , int delete_row , int delete_column , int source_matrix_size)
-// {
-//     if (source_matrix_size == 1) cout << "can't resize this matrix >> source_matrix_size = 1";
-//     else
-//     {
-//         int new_matrix_size = source_matrix_size - 1;
-//         for (int row = 0 ; row < source_matrix_size ; row++)
-//         {
-//             if (row == delete_row) continue;
-//             for (int column = 0 ; column < source_matrix_size ; column++)
-//             {
-//                 if (column == delete_column) continue;
-//                 matrix_change_element(source_matrix , row-1 , (column < delete_column ? column : column-1) , matrix_access(source_matrix , row , column , source_matrix_size) , source_matrix_size);
-//             }
-//         }
-//         return new_matrix_size;
-//     }
-// }
-
-//============================================================================//
-
 void resize_SourceMatrix_to_NewMatrix(double source_matrix[] , int delete_row , int delete_column , int source_matrix_size , double new_matrix[])
 {
-    // cout << "\nStart_ressize \n"; //test
-
     if (source_matrix_size <= 1) cout << "can't resize this matrix >> source_matrix_size = 1";
     else
     {
-        // cout << "delete_row : " << delete_row << "  delete_column : " << delete_column << "  source_matrix_size : " << source_matrix_size; //test
-
         int new_matrix_size;
         new_matrix_size = source_matrix_size - 1;
         for (int row = 0 ; row < source_matrix_size ; row++)
@@ -167,34 +135,54 @@ void resize_SourceMatrix_to_NewMatrix(double source_matrix[] , int delete_row , 
                 matrix_change_element(new_matrix , (row < delete_row ? row : row-1) , (column < delete_column ? column : column-1) , matrix_access(source_matrix , row , column , source_matrix_size) , new_matrix_size);
             }
         }
-
-        // cout << "\n\n________SubMatrix_After_resize_________\n"; //test
-        // show_matrix(new_matrix , new_matrix_size); //test
-        // cout << "__________________________________________\n\n"; //test
     }
 }
 
-double DET_FUNCTION(double source_matrix[] ,long int source_matrix_size ,long int i)
+//=========================== Chat_GPT ==========================//
+
+// double DET_FUNCTION(double source_matrix[], int source_matrix_size, int k)
+// {
+//     if (source_matrix_size == 1)
+//         return matrix_access(source_matrix, 0, 0, source_matrix_size);
+
+//     if (source_matrix_size == 2)
+//         return matrix_access(source_matrix, 0, 0, source_matrix_size) * matrix_access(source_matrix, 1, 1, source_matrix_size) -
+//                matrix_access(source_matrix, 0, 1, source_matrix_size) * matrix_access(source_matrix, 1, 0, source_matrix_size);
+
+//     double determinant = 0;
+//     int sign = 1;
+
+//     for (int i = 0; i < source_matrix_size; i++)
+//     {
+//         int sub_matrix_size = source_matrix_size - 1;
+//         double sub_matrix[sub_matrix_size * sub_matrix_size];
+
+//         resize_SourceMatrix_to_NewMatrix(source_matrix, 0, i, source_matrix_size, sub_matrix);
+
+//         determinant += sign * matrix_access(source_matrix, 0, i, source_matrix_size) * DET_FUNCTION(sub_matrix, sub_matrix_size);
+
+//         sign = -sign; // Alternate sign
+//     }
+
+//     return determinant;
+// }
+
+//=========================== Chat_GPT ==========================//
+
+double DET_FUNCTION(double source_matrix[], int source_matrix_size, int k)
 {
-    if (source_matrix_size == 1) return matrix_access(source_matrix , 0 , 0 , source_matrix_size);
-    else if (i > source_matrix_size - 1) return 0;
-    else
-    {
-        long int SubMatrix_Size;
-        SubMatrix_Size = source_matrix_size - 1;
-        // cout << "Before_Resize ||" << "source_matrix_size >> " << source_matrix_size << " SubMatrix_Size >> " << SubMatrix_Size << "\n"; //test
-        double SubMatrix[SubMatrix_Size];
- 
-        resize_SourceMatrix_to_NewMatrix(source_matrix , 0 , i , source_matrix_size , SubMatrix);
+    if (source_matrix_size == 1) return matrix_access(source_matrix, 0, 0, source_matrix_size);
 
-        // cout << "After_Resize ||" << "source_matrix_size >> " << source_matrix_size << " SubMatrix_Size >> " << SubMatrix_Size << "\n"; //test
-        // cout << "\n\n||||||||||||||||||||||------------------|||||||||||||||||||\n\n\n"; //test
+    if (k > source_matrix_size - 1) return 0;
 
-        int pow_;
-        if (i % 2 == 0) pow_ = 1;
-        else pow_ = -1;
+    int SubMatrix_Size = source_matrix_size - 1;
+    double SubMatrix[SubMatrix_Size*SubMatrix_Size];
 
-        return (matrix_access(source_matrix , 0 , i , source_matrix_size) * pow_ * DET_FUNCTION(SubMatrix , SubMatrix_Size , 0)) + (DET_FUNCTION(source_matrix , source_matrix_size , i+1));
+    resize_SourceMatrix_to_NewMatrix(source_matrix , 0 , k , source_matrix_size , SubMatrix);
 
-    }
+    int pow_;
+    if (k % 2 == 0) pow_ = 1;
+    else pow_ = -1;
+
+    return (DET_FUNCTION(source_matrix , source_matrix_size , k+1)) + (matrix_access(source_matrix , 0 , k , source_matrix_size) * pow_ * DET_FUNCTION(SubMatrix , SubMatrix_Size , 0));
 }

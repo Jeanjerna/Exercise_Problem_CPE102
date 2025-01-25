@@ -11,11 +11,9 @@ double matrix_access(double source_matrix[] , int row , int column, int source_m
 void user_create_A_Matrix(double source_matrix[] , int source_matrix_size);
 void show_matrix(double source_matrix[], int source_matrix_size);
 void resize_SourceMatrix_to_NewMatrix(double source_matrix[] , int delete_row , int delete_column , int source_matrix_size , double new_matrix[]);
-
-double DET_FUNCTION(double source_matrix[] ,int source_matrix_size, int k);
+double DET_FUNCTION(double source_matrix[] ,int source_matrix_size,int i);
 
 //__________________________________________________________________________//
-
 
 //------------MAIN-----------__________MAIN__________------------MAIN-----------//
 int main()
@@ -25,7 +23,7 @@ int main()
     cin >> Main_matrix_size;
     Main_matrix_sum_size = Main_matrix_size * Main_matrix_size;
 
-    double A[Main_matrix_sum_size];
+    double A[Main_matrix_sum_size]; 
     user_create_A_Matrix(A , Main_matrix_size); 
 
     //------------------------------TEST------------------------------//
@@ -50,12 +48,12 @@ int main()
     //                                 0, 0, 0, 0, 0, 0, 0, 10, 0, 0, 
     //                                 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 
     //                                 0, 0, 0, 0, 0, 0, 0, -1, -1, -1};
-
+    
     //------------------------------TEST------------------------------//
 
     show_matrix(A , Main_matrix_size);
+    cout << "Determinant of your matrix is " << DET_FUNCTION(A , Main_matrix_size , 0);
 
-    cout << "Determinant of your matrix is " << DET_FUNCTION(A , Main_matrix_size, 0);
 }
 
 //__________________________________________________________________________//
@@ -67,7 +65,6 @@ int main()
 //                                      V                                       //
 
 
-
 void matrix_change_element(double source_matrix[] , int row , int column , double num , int source_matrix_size)
 {
     int real_direction_in_array = source_matrix_size*row + column;
@@ -75,7 +72,6 @@ void matrix_change_element(double source_matrix[] , int row , int column , doubl
 }
 
 //============================================================================//
-
 double matrix_access(double source_matrix[] , int row , int column , int source_matrix_size)
 {
     int real_direction_in_array = source_matrix_size*row + column;
@@ -87,7 +83,6 @@ double matrix_access(double source_matrix[] , int row , int column , int source_
 void user_create_A_Matrix(double source_matrix[] , int source_matrix_size)
 {
     double num_input;
-
     for (int i = 0 ; i < source_matrix_size ; i++)
     {
         cout << "Input elements of row " << i+1 << " : ";
@@ -104,7 +99,6 @@ void user_create_A_Matrix(double source_matrix[] , int source_matrix_size)
 void show_matrix(double source_matrix[] , int source_matrix_size)
 {
     cout << "\n\n";
-
     for (int i = 0 ; i < source_matrix_size ; i++)
     {
         for (int j = 0 ; j < source_matrix_size ; j++)
@@ -138,51 +132,23 @@ void resize_SourceMatrix_to_NewMatrix(double source_matrix[] , int delete_row , 
     }
 }
 
-//=========================== Chat_GPT ==========================//
+//============================================================================//
 
-// double DET_FUNCTION(double source_matrix[], int source_matrix_size, int k)
-// {
-//     if (source_matrix_size == 1)
-//         return matrix_access(source_matrix, 0, 0, source_matrix_size);
-
-//     if (source_matrix_size == 2)
-//         return matrix_access(source_matrix, 0, 0, source_matrix_size) * matrix_access(source_matrix, 1, 1, source_matrix_size) -
-//                matrix_access(source_matrix, 0, 1, source_matrix_size) * matrix_access(source_matrix, 1, 0, source_matrix_size);
-
-//     double determinant = 0;
-//     int sign = 1;
-
-//     for (int i = 0; i < source_matrix_size; i++)
-//     {
-//         int sub_matrix_size = source_matrix_size - 1;
-//         double sub_matrix[sub_matrix_size * sub_matrix_size];
-
-//         resize_SourceMatrix_to_NewMatrix(source_matrix, 0, i, source_matrix_size, sub_matrix);
-
-//         determinant += sign * matrix_access(source_matrix, 0, i, source_matrix_size) * DET_FUNCTION(sub_matrix, sub_matrix_size);
-
-//         sign = -sign; // Alternate sign
-//     }
-
-//     return determinant;
-// }
-
-//=========================== Chat_GPT ==========================//
-
-double DET_FUNCTION(double source_matrix[], int source_matrix_size, int k)
+double DET_FUNCTION(double source_matrix[] ,int source_matrix_size ,int i)
 {
-    if (source_matrix_size == 1) return matrix_access(source_matrix, 0, 0, source_matrix_size);
+    if (source_matrix_size == 1) return matrix_access(source_matrix , 0 , 0 , source_matrix_size);
 
-    if (k > source_matrix_size - 1) return 0;
+    if (i > source_matrix_size - 1) return 0;
 
     int SubMatrix_Size = source_matrix_size - 1;
-    double SubMatrix[SubMatrix_Size*SubMatrix_Size];
+    double SubMatrix[SubMatrix_Size * SubMatrix_Size]; // แก้จาก SubMatrix[SubMatrix_Size] ไปเป็น SubMatrix[SubMatrix_Size * SubMatrix_Size] เฉยๆ
 
-    resize_SourceMatrix_to_NewMatrix(source_matrix , 0 , k , source_matrix_size , SubMatrix);
+    resize_SourceMatrix_to_NewMatrix(source_matrix , 0 , i , source_matrix_size , SubMatrix);
 
     int pow_;
-    if (k % 2 == 0) pow_ = 1;
+    if (i % 2 == 0) pow_ = 1;
     else pow_ = -1;
-
-    return (DET_FUNCTION(source_matrix , source_matrix_size , k+1)) + (matrix_access(source_matrix , 0 , k , source_matrix_size) * pow_ * DET_FUNCTION(SubMatrix , SubMatrix_Size , 0));
+    return (matrix_access(source_matrix , 0 , i , source_matrix_size) * pow_ * DET_FUNCTION(SubMatrix , SubMatrix_Size , 0)) + (DET_FUNCTION(source_matrix , source_matrix_size , i+1));
 }
+
+//============================================================================//
